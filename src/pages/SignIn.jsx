@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSignIn, useSignUp } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-import "./AuthForm.css";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -37,7 +36,6 @@ export default function SignIn() {
 
   const handleGoogleSignIn = async () => {
     try {
-      // Use the same approach as SignUp - Clerk handles both sign-in and sign-up
       await signUp.authenticateWithRedirect({
         strategy: "oauth_google",
         redirectUrl: "/dashboard",
@@ -50,7 +48,6 @@ export default function SignIn() {
 
   const handleLinkedInSignIn = async () => {
     try {
-      // LinkedIn OAuth authentication
       await signUp.authenticateWithRedirect({
         strategy: "oauth_linkedin_oidc",
         redirectUrl: "/dashboard",
@@ -62,13 +59,16 @@ export default function SignIn() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2>Welcome Back</h2>
-        <p className="auth-subtitle">Sign in to your account</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-5">
+      <div className="bg-white p-10 rounded-xl shadow-2xl w-full max-w-md">
+        <h2 className="text-3xl font-bold text-gray-900 text-center mb-2">Welcome Back</h2>
+        <p className="text-gray-600 text-center text-sm mb-8">Sign in to your account</p>
 
-        <button onClick={handleGoogleSignIn} className="google-btn">
-          <svg className="google-icon" viewBox="0 0 24 24">
+        <button
+          onClick={handleGoogleSignIn}
+          className="w-full p-3 bg-white text-gray-700 border border-gray-300 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 flex items-center justify-center gap-3 mb-5 hover:bg-gray-50 hover:border-gray-400 hover:shadow-sm"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
             <path
               fill="#34A853"
@@ -86,8 +86,11 @@ export default function SignIn() {
           Continue with Google
         </button>
 
-        <button onClick={handleLinkedInSignIn} className="linkedin-btn">
-          <svg className="linkedin-icon" viewBox="0 0 24 24">
+        <button
+          onClick={handleLinkedInSignIn}
+          className="w-full p-3 bg-white text-gray-700 border border-gray-300 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 flex items-center justify-center gap-3 mb-5 hover:bg-gray-50 hover:border-gray-400 hover:shadow-sm"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
               fill="#0077B5"
               d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
@@ -96,31 +99,60 @@ export default function SignIn() {
           Continue with LinkedIn
         </button>
 
-        <div className="divider">
-          <span>or</span>
+        <div className="text-center my-5 relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-4 bg-white text-gray-500">or</span>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" />
+          <div className="mb-5">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="you@example.com"
+              className="w-full p-3 border border-gray-300 rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:border-blue-500"
+            />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="••••••••" />
+          <div className="mb-5">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="••••••••"
+              className="w-full p-3 border border-gray-300 rounded-lg text-sm transition-colors duration-200 focus:outline-none focus:border-blue-500"
+            />
           </div>
 
-          {error && <div className="error-message">{error}</div>}
+          {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{error}</div>}
 
-          <button type="submit" className="submit-btn" disabled={loading}>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full p-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 hover:transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+          >
             {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
-        <div className="toggle-mode">
+        <div className="mt-6 text-center text-gray-600 text-sm">
           Don't have an account?{" "}
-          <button onClick={() => navigate("/signup")} className="toggle-btn">
+          <button onClick={() => navigate("/signup")} className="bg-none border-none text-blue-500 font-semibold cursor-pointer ml-1.5 text-sm hover:underline">
             Sign Up
           </button>
         </div>
